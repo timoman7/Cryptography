@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Encryption</title>
+    <script src="./main.js"></script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <textarea type="text" name="Encryptor" id="Encryptor" placeholder="Message  to encrypt"></textarea>
+            </td>
+            <td>
+                <select id="ObfuscateEncrypt">
+                    <option value="yes" selected>Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </td>
+            <td>
+                <button id="SubmitEncryption">Encrypt</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <textarea type="text" name="Decryptor" id="Decryptor" placeholder="Message  to decrypt"></textarea>
+            </td>
+            <td>
+                <select id="ObfuscateDecrypt">
+                    <option value="yes" selected>Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </td>
+            <td>
+                <button id="SubmitDecryption">Decrypt</button>
+            </td>
+        </tr>
+    </table>
+    <textarea name="" id="result" cols="30" rows="10"></textarea>
+</body>
+</html>
