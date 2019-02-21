@@ -3,18 +3,19 @@ function Cryptography(state, obfuscation, tData){
 	let data = tData.toString();
     if(typeof state == "string"){
 		if(state.toLowerCase() == 'e'){
-			console.log("Encrypting:",data);
+			// console.log("Encrypting:",data);
 			let odd = "";
 			let even = "";
-			for(let i = 0; i < data.length; i += 2){
-				even += data[i].toString();
-            }
-			for(let i = 1; i < data.length; i += 2){
-				odd  += data[i].toString();
+			for(let i = 0; i < data.length; i++){
+                if(i%2 == 0) {
+                    even += data[i].toString();
+                } else if((i+1)%2 == 0) {
+                    odd += data[i].toString();
+                }
             }
 			data = even + odd;
 			let front = data.substr(0, Math.floor(data.length/2));
-			let back  = data.substr(Math.floor(data.length/2), data.length);
+			let back  = data.substr(Math.floor(data.length/2));
 			data = back + front;
 			if(obfuscation == true){
                 [...data].forEach((char)=>{
@@ -24,7 +25,7 @@ function Cryptography(state, obfuscation, tData){
 				rv = data;
             }
         }else if(state.toLowerCase() == 'd'){
-			console.log("Decrypting:", data);
+			// console.log("Decrypting:", data);
 			if(obfuscation == true){
                 let tempData = "";
                 [...data].forEach((char)=>{
@@ -33,21 +34,23 @@ function Cryptography(state, obfuscation, tData){
                 data = tempData;
             }
 			let back = data.substr(0, Math.floor(data.length/2));
-			let front  = data.substr(Math.floor(data.length/2), data.length);
-			let arrString = [];
-			for(let i = 0; i < front.length; i++){
-				arrString[i*2] = front[i];
+            let front  = data.substr(Math.floor(data.length/2));
+            console.log(back)
+            let arrString = [];
+			for(let i = 0; i < (front.length+back.length)/2; i++){
+				arrString[i*2]      = front[i];
+				arrString[1+(i*2)]  = back[i];
             }
-			for(let i = 0; i < back.length; i++){
-				arrString[1+(i*2)] = back[i];
+            data = arrString.join('');
+            if(data.length%2 != 0) {
+                data = (data.substr(2) + data.substr(0,2));
             }
-			data = arrString.join('');
 			rv = data;
         }
     }
 	return rv;
 }
-var EncryptedMessage = Cryptography("e", true, Cryptography("e", false, "This is my encrypted message"));
+var EncryptedMessage = Cryptography("e", true, Cryptography("e", false, "Do not fold my data"));
 console.log("Encrypted Message:", EncryptedMessage);
 var DecryptedMessage = Cryptography("d", false,Cryptography("d", true, EncryptedMessage));
 console.log("Decrypted Message:", DecryptedMessage);
