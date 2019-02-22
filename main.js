@@ -109,9 +109,9 @@ window.addEventListener("load", function(){
         if(typeof query == "object") {
             if(query.c.toLowerCase() == "e") {                          //Encrypt
                 if(query.intent.toLowerCase() == "decrypt") {           //To decrypt
-                    Decryptor.value = query.d;
-                } else if(query.intent.toLowerCase() == "encrypt") {    //To inform
                     Encryptor.value = query.d;
+                } else if(query.intent.toLowerCase() == "encrypt") {    //To inform
+                    Decryptor.value = query.d;
                 }
                 if(query.o.toLowerCase() == "y") {
                     obfuscateEncrypt.value = "yes";
