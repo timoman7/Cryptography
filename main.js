@@ -55,6 +55,13 @@ console.log("Encrypted Message:", EncryptedMessage);
 var DecryptedMessage = Cryptography("d", false,Cryptography("d", true, EncryptedMessage));
 console.log("Decrypted Message:", DecryptedMessage);
 window.addEventListener("load", function(){
+    let LastAction = {
+        c: "e",
+        o: "t",
+        d: "This is the message to encrypt",
+        intent: ""
+    };
+
     let Encryptor           = document.querySelector("#Encryptor");
     let obfuscateEncrypt    = document.querySelector("#ObfuscateEncrypt");
     let SubmitEncryption    = document.querySelector("#SubmitEncryption");
@@ -64,20 +71,88 @@ window.addEventListener("load", function(){
     let SubmitDecryption    = document.querySelector("#SubmitDecryption");
 
     let Result              = document.querySelector("#result");
+
+    let ResultSendButton    = document.querySelector("#resultSendButton");
+    let CopyActionButton    = document.querySelector("#copyActionButton");
+
+    let UrlToCopy           = document.querySelector("#urlToCopy");
+
     SubmitEncryption.addEventListener("click", function(){
         let message = Encryptor.value;
-        if(obfuscateEncrypt.value == "yes") {
-            Result.value    = Cryptography("e", true, message);
-        } else if(obfuscateEncrypt.value == "no") {
-            Result.value    = Cryptography("e", false, message);
-        }
+        Result.value = Cryptography("e", (obfuscateEncrypt.value == "yes"? true : false), message);
+        LastAction.c = "e";
+        LastAction.o = (obfuscateEncrypt.value == "yes"? "y" : "n");
+        LastAction.d = encodeURI(Result.value);
     });
     SubmitDecryption.addEventListener("click", function(){
         let message = Decryptor.value;
-        if(obfuscateDecrypt.value == "yes") {
-            Result.value    = Cryptography("d", true, message);
-        } else if(obfuscateDecrypt.value == "no") {
-            Result.value    = Cryptography("d", false, message);
+        Result.value = Cryptography("d", (obfuscateEncrypt.value == "yes"? true : false), message);
+        LastAction.c = "d";
+        LastAction.o = (obfuscateEncrypt.value == "yes"? "y" : "n");
+        LastAction.d = encodeURI(Result.value);
+    });
+    let crypt   = 1;    //  1 = encrypt 2 = decrypt
+    let obf     = 1;    //  0 = false   1 = true
+    let data    = "";
+    let pageLoadPromise = new Promise(function(resolve, reject){
+        let val = {};
+        let tVal = location.search.split("&");
+        tVal[0] = tVal[0].substr(1);
+        for(let i = 0; i < tVal.length; i++) {
+            let key = tVal[i].split("=")[0];
+            let value = decodeURI(tVal[i].split("=")[1]);
+            val[key] = value;
         }
+        resolve(val);
+    });
+    pageLoadPromise.then((query) => {
+        if(typeof query == "object") {
+            if(query.c.toLowerCase() == "e") {                          //Encrypt
+                if(query.intent.toLowerCase() == "decrypt") {           //To decrypt
+                    Decryptor.value = query.d;
+                } else if(query.intent.toLowerCase() == "encrypt") {    //To inform
+                    Encryptor.value = query.d;
+                }
+                if(query.o.toLowerCase() == "y") {
+                    obfuscateEncrypt.value = "yes";
+                } else if(query.o.toLowerCase() == "n") {
+                    obfuscateEncrypt.value = "no";
+                }
+            } else if(query.c.toLowerCase() == "d") {                   //Decrypt
+                if(query.intent.toLowerCase() == "decrypt") {           //To inform
+                    Decryptor = query.d;
+                } else if(query.intent.toLowerCase() == "encrypt") {    //To encrypt
+                    Encryptor = query.d;
+                }
+                if(query.o.toLowerCase() == "y") {
+                    obfuscateDecrypt.value = "yes";
+                } else if(query.o.toLowerCase() == "n") {
+                    obfuscateDecrypt.value = "no";
+                }
+            }
+
+        }
+    });
+    ResultSendButton.addEventListener("click", function(){
+        let queryString;
+        if(LastAction.c.toLowerCase() == "e") {
+            LastAction.intent = "encrypt";
+            queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=${LastAction.intent}&d=${LastAction.d}`;
+        } else if(LastAction.c.toLowerCase() == "d") {
+            LastAction.intent = "decrypt";
+            queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=${LastAction.intent}&d=${Result.value}`;
+        }
+        UrlToCopy.value = location.pathname + queryString;
+    });
+    CopyActionButton.addEventListener("click", function(){
+        let queryString;
+        if(LastAction.c.toLowerCase() == "e") {
+            LastAction.intent = "decrypt";
+            queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=${LastAction.intent}&d=${Result.value}`;
+        } else if(LastAction.c.toLowerCase() == "d") {
+            LastAction.intent = "encrypt";
+            queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=${LastAction.intent}&d=${LastAction.d}`;
+        }
+        UrlToCopy.value = location.pathname + queryString;
     });
 });
