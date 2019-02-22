@@ -137,10 +137,10 @@ window.addEventListener("load", function(){
         let queryString;
         if(LastAction.c.toLowerCase() == "e") {
             LastAction.intent = "encrypt";
-            queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=decrypt&d=${LastAction.d}`;
+            queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=${LastAction.intent}&d=${LastAction.d}`;
         } else if(LastAction.c.toLowerCase() == "d") {
             LastAction.intent = "decrypt";
-            queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=encrypt&d=${Result.value}`;
+            queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=${LastAction.intent}&d=${Result.value}`;
         }
         UrlToCopy.value = location.origin + location.pathname + queryString;
     });
