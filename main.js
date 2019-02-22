@@ -86,9 +86,9 @@ window.addEventListener("load", function(){
     });
     SubmitDecryption.addEventListener("click", function(){
         let message = Decryptor.value;
-        Result.value = Cryptography("d", (obfuscateEncrypt.value == "yes"? true : false), message);
+        Result.value = Cryptography("d", (obfuscateDecrypt.value == "yes"? true : false), message);
         LastAction.c = "d";
-        LastAction.o = (obfuscateEncrypt.value == "yes"? "y" : "n");
+        LastAction.o = (obfuscateDecrypt.value == "yes"? "y" : "n");
         LastAction.d = encodeURI(Result.value);
     });
     let crypt   = 1;    //  1 = encrypt 2 = decrypt
