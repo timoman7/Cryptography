@@ -6,7 +6,8 @@ function Cryptography(state, obfuscation, tData){
     }
     if(typeof state == "string"){
 		if(state.toLowerCase() == 'e'){
-			// console.log("Encrypting:",data);
+            // console.log("Encrypting:",data);
+            data = data.split("").reverse().join("");
 			let odd = "";
 			let even = "";
 			for(let i = 0; i < data.length; i++){
@@ -44,7 +45,7 @@ function Cryptography(state, obfuscation, tData){
 				arrString[i*2]      = front[i];
 				arrString[1+(i*2)]  = back[i];
             }
-            data = arrString.join('');
+            data = arrString.reverse().join('');
             if(data.length%2 != 0) {
                 data = (data.substr(2) + data.substr(0,2));
             }
