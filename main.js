@@ -142,7 +142,7 @@ window.addEventListener("load", function(){
             LastAction.intent = "decrypt";
             queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=${LastAction.intent}&d=${Result.value}`;
         }
-        UrlToCopy.value = location.pathname + queryString;
+        UrlToCopy.value = location.origin + location.pathname + queryString;
     });
     CopyActionButton.addEventListener("click", function(){
         let queryString;
@@ -153,6 +153,6 @@ window.addEventListener("load", function(){
             LastAction.intent = "encrypt";
             queryString = `?c=${LastAction.c}&o=${LastAction.o}&intent=${LastAction.intent}&d=${LastAction.d}`;
         }
-        UrlToCopy.value = location.pathname + queryString;
+        UrlToCopy.value = location.origin + location.pathname + queryString;
     });
 });
