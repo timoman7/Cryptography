@@ -1,6 +1,9 @@
 function Cryptography(state, obfuscation, tData){
-	let rv = "";
-	let data = tData.toString();
+    let rv = "";
+    let data;
+    if(tData.toString != undefined) {
+        data = tData.toString();
+    }
     if(typeof state == "string"){
 		if(state.toLowerCase() == 'e'){
 			// console.log("Encrypting:",data);
