@@ -1,3 +1,4 @@
+console.log("This encryption method is incredibly insecure, it was developed\nas a means of demonstrating basic encryption.\nIt is called TBES(Tim's Basic Encryption Service)");
 function Cryptography(state, obfuscation, tData){
     let rv = "";
     let data;
